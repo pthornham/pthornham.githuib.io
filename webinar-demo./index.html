@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Webinar Program Tool: Interactive Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F5F7F3; --ink:#1D2A24; --green:#2E5E4E; --deep:#234A3D;
+    --muted:#56665E; --line:#D3DBD5; --hi:#F2C94C; --card:#FFFFFF;
+    --gray-bar:#A9B5AE;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Schibsted Grotesk",system-ui,-apple-system,Segoe UI,sans-serif;font-size:17px;line-height:1.55}
+  .wrap{max-width:68rem;margin:0 auto;padding:3rem 1.5rem 5rem}
+  .site-head{max-width:68rem;margin:0 auto;padding:1.25rem 1.5rem 0;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+  .site-head .who{font-weight:700;text-decoration:none;color:var(--ink);letter-spacing:-.01em}
+  .site-head .back{font-size:.92rem;font-weight:600;text-decoration:none;color:var(--green)}
+  .site-head a:hover{text-decoration:underline}
+  .site-head + .wrap{padding-top:2.25rem}
+  a{color:var(--green)}
+  :focus-visible{outline:3px solid var(--hi);outline-offset:2px}
+  .eyebrow{font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 .75rem}
+  h1{font-size:clamp(2.1rem,5vw,3.4rem);line-height:1.02;letter-spacing:-.03em;font-weight:800;margin:0 0 1.1rem;max-width:18ch}
+  h2{font-size:1.5rem;letter-spacing:-.02em;line-height:1.15;margin:0 0 .4rem}
+  h3{font-size:1.05rem;margin:0 0 .5rem}
+  .lead{max-width:40rem;font-size:1.1rem;color:var(--ink);margin:0 0 1rem}
+  .mark{background:linear-gradient(transparent 55%, var(--hi) 55%);padding:0 .1em}
+  .note{font-size:.9rem;color:var(--muted);max-width:40rem}
+  .flow{display:flex;gap:.5rem;flex-wrap:wrap;margin:1.75rem 0 2.5rem;padding:0;list-style:none}
+  .flow li{display:flex;align-items:center;gap:.5rem;font-weight:600;font-size:.95rem}
+  .flow .n{display:inline-grid;place-items:center;width:1.7rem;height:1.7rem;border-radius:50%;background:var(--ink);color:var(--paper);font-size:.85rem}
+  .flow .arrow{color:var(--muted);font-weight:400;margin:0 .35rem}
+
+  section.step{border-top:1px solid var(--line);padding:2.25rem 0 1rem}
+  .step-head{display:flex;gap:.9rem;align-items:baseline;margin-bottom:1.25rem}
+  .step-head .n{flex:none;display:inline-grid;place-items:center;width:2rem;height:2rem;border-radius:50%;background:var(--green);color:#fff;font-weight:700}
+  .step-head p{margin:0;color:var(--muted);max-width:40rem}
+  .locked{opacity:.45;pointer-events:none}
+
+  .grid-in{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:1.25rem}
+  @media (max-width:820px){.grid-in{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.1rem 1.2rem}
+  label.lbl{display:block;font-weight:600;font-size:.9rem;margin-bottom:.4rem}
+  select,textarea{font:inherit;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:8px;width:100%}
+  select{padding:.5rem .6rem;margin-bottom:.8rem}
+  textarea{padding:.75rem .85rem;min-height:19rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;line-height:1.55;resize:vertical}
+  .checks{display:grid;gap:.15rem;margin:.25rem 0 0}
+  .checks label{display:flex;gap:.55rem;align-items:flex-start;font-size:.92rem;padding:.25rem 0;cursor:pointer}
+  .checks input{margin-top:.3rem;accent-color:var(--green)}
+  .checks .grp{font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:.65rem 0 .1rem}
+  .checks .grp:first-child{margin-top:0}
+  .btn{font:inherit;font-weight:700;border:0;border-radius:8px;padding:.75rem 1.2rem;background:var(--green);color:#fff;cursor:pointer}
+  .btn:hover{background:var(--deep)}
+  .btn.ghost{background:transparent;color:var(--green);border:1px solid var(--green);padding:.4rem .75rem;font-size:.85rem;font-weight:600}
+  .btn.ghost:hover{background:var(--green);color:#fff}
+  .actions{display:flex;gap:1rem;align-items:center;margin-top:1.1rem;flex-wrap:wrap}
+
+  /* tool panel */
+  .panel{background:var(--deep);color:#EAF1EC;border-radius:12px;padding:1.25rem;}
+  .summary{display:flex;flex-wrap:wrap;gap:1.75rem;margin-bottom:1.1rem}
+  .summary div{min-width:7rem}
+  .summary b{display:block;font-size:1.8rem;line-height:1;color:#fff;letter-spacing:-.02em}
+  .summary span{font-size:.85rem;color:#B9CBC1}
+  .tabs{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1rem}
+  .tabs button{font:inherit;font-size:.9rem;font-weight:600;border:1px solid #4E7466;background:transparent;color:#EAF1EC;border-radius:999px;padding:.35rem .85rem;cursor:pointer}
+  .tabs button[aria-selected="true"]{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+  .tabs .flag{display:inline-block;margin-left:.35rem;background:var(--hi);color:var(--ink);border-radius:999px;font-size:.72rem;padding:0 .4rem}
+  .pane{background:var(--paper);color:var(--ink);border-radius:10px;padding:1.25rem 1.3rem;}
+  .pane[hidden]{display:none}
+  .pane-top{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:.9rem;flex-wrap:wrap}
+  .pane-top h3{margin:0}
+
+  dl.brief{display:grid;grid-template-columns:9rem 1fr;gap:.45rem 1rem;margin:0 0 1.2rem}
+  dl.brief dt{color:var(--muted);font-size:.9rem}
+  dl.brief dd{margin:0;font-weight:500}
+  @media (max-width:640px){dl.brief{grid-template-columns:1fr;gap:.1rem}dl.brief dd{margin-bottom:.55rem}.panel{padding:.9rem}.pane{padding:1rem}}
+  ul.tidy{margin:.25rem 0 1rem;padding-left:1.15rem}
+  ul.tidy li{margin:.2rem 0}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+  @media (max-width:760px){.two{grid-template-columns:1fr}}
+  table{border-collapse:collapse;width:100%;font-size:.88rem}
+  th,td{text-align:left;padding:.5rem .5rem;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+  .url{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.78rem;word-break:break-all;color:var(--ink)}
+  .tag{display:inline-block;font-size:.72rem;font-weight:700;border-radius:4px;padding:.05rem .4rem;background:#E3EAE5;color:var(--deep);white-space:nowrap}
+  .email{border:1px solid var(--line);border-radius:8px;background:#fff;margin-bottom:1rem}
+  .email header{padding:.7rem .9rem;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:1rem;align-items:center;flex-wrap:wrap}
+  .email header .meta{font-size:.82rem;color:var(--muted)}
+  .email header .subj{font-weight:700}
+  .email .body{padding:.9rem;white-space:pre-wrap;font-size:.92rem}
+  .email .body a{word-break:break-all}
+  .timeline{list-style:none;margin:0;padding:0}
+  .timeline li{display:grid;grid-template-columns:7.5rem 1fr;gap:.75rem;padding:.4rem 0;border-bottom:1px dashed var(--line);font-size:.92rem}
+  .timeline .when{color:var(--muted);font-variant-numeric:tabular-nums}
+
+  .lp{border:1px solid var(--line);border-radius:8px;background:#fff;overflow:hidden}
+  .lp .lp-hero{background:#1F3B5A;color:#fff;padding:1.6rem 1.5rem}
+  .lp .lp-hero small{opacity:.8;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase}
+  .lp .lp-hero h4{font-size:1.5rem;line-height:1.15;margin:.35rem 0 .5rem}
+  .lp .lp-body{padding:1.25rem 1.5rem;display:grid;grid-template-columns:1.3fr 1fr;gap:1.5rem}
+  @media (max-width:760px){.lp .lp-body{grid-template-columns:1fr}}
+  .lp .video{aspect-ratio:16/9;background:#0F1F2E;border-radius:6px;display:grid;place-items:center;color:#9FB3C8;font-size:.85rem;text-align:center;padding:1rem}
+  .lp .cta{display:inline-block;background:#E8833A;color:#fff;font-weight:700;text-decoration:none;border-radius:6px;padding:.6rem 1rem;margin-top:.5rem}
+
+  .kb{background:#fff;border:1px solid var(--line);border-radius:8px;padding:1.2rem 1.4rem}
+  .kb .crumb{font-size:.8rem;color:var(--muted)}
+  .kb h4{font-size:1.3rem;margin:.3rem 0 .75rem}
+
+  .cl{list-style:none;margin:0;padding:0}
+  .cl li{display:flex;gap:.65rem;align-items:flex-start;padding:.5rem 0;border-bottom:1px solid var(--line);font-size:.93rem}
+  .cl input{margin-top:.25rem;accent-color:var(--green);width:1rem;height:1rem;flex:none}
+  .cl .who{margin-left:auto;flex:none}
+  .warn{display:flex;gap:.6rem;align-items:flex-start;background:#FCF3D6;border:1px solid #E9D48A;border-radius:8px;padding:.6rem .8rem;margin-bottom:.5rem;font-size:.92rem}
+  .warn .ico{flex:none;font-weight:800}
+  .ok{display:flex;gap:.6rem;align-items:center;background:#E6EFE9;border:1px solid #C4D6CB;border-radius:8px;padding:.6rem .8rem;margin-bottom:.5rem;font-size:.92rem}
+  .progress{height:8px;background:#E3EAE5;border-radius:999px;overflow:hidden;margin:.35rem 0 1rem}
+  .progress i{display:block;height:100%;background:var(--green);border-radius:999px}
+
+  /* results */
+  .kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.75rem;margin-bottom:1.25rem}
+  @media (max-width:820px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:.85rem 1rem}
+  .kpi span{display:block;font-size:.8rem;color:var(--muted)}
+  .kpi b{display:block;font-size:1.65rem;letter-spacing:-.02em;line-height:1.15;font-variant-numeric:tabular-nums}
+  .kpi small{font-size:.78rem;color:var(--muted)}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff}
+  .seg button{font:inherit;font-size:.88rem;font-weight:600;border:0;background:transparent;color:var(--ink);padding:.4rem .8rem;cursor:pointer;border-right:1px solid var(--line)}
+  .seg button:last-child{border-right:0}
+  .seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+  .chart-top{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:.9rem}
+  .bars{position:relative}
+  .bar-row{display:grid;grid-template-columns:13rem 1fr 4.5rem;align-items:center;gap:.75rem;padding:.3rem 0;cursor:default}
+  @media (max-width:640px){.bar-row{grid-template-columns:8.5rem 1fr 4rem}}
+  .bar-row .name{font-size:.88rem;text-align:right;color:var(--ink)}
+  .bar-row .track{height:18px;position:relative}
+  .bar-row .fill{position:absolute;left:0;top:0;bottom:0;background:var(--green);border-radius:0 4px 4px 0;min-width:2px}
+  .bar-row.untracked .fill{background:var(--gray-bar)}
+  .bar-row.star .fill{background:var(--deep)}
+  .bar-row .val{font-size:.85rem;font-variant-numeric:tabular-nums;color:var(--ink)}
+  .bar-row:hover .name,.bar-row:focus .name{font-weight:700}
+  .bar-row:hover .fill,.bar-row:focus .fill{filter:brightness(1.12)}
+  .bar-row:focus{outline:none}
+  .bar-row:focus-visible{outline:3px solid var(--hi)}
+  .tip{position:absolute;pointer-events:none;background:var(--ink);color:#fff;font-size:.82rem;border-radius:6px;padding:.45rem .6rem;white-space:nowrap;z-index:5;transform:translate(-50%,-110%);display:none}
+  .callout{border-left:4px solid var(--hi);padding:.2rem 0 .2rem 1rem;margin:1.25rem 0 0;max-width:46rem}
+  .callout p{margin:.25rem 0}
+  .footnote{font-size:.85rem;color:var(--muted);margin-top:2.5rem;border-top:1px solid var(--line);padding-top:1rem;max-width:46rem}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .toast{position:fixed;bottom:1.25rem;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:.55rem 1rem;border-radius:8px;font-size:.9rem;opacity:0;transition:opacity .15s;pointer-events:none}
+  .toast.show{opacity:1}
+</style>
+</head>
+<body>
+<header class="site-head">
+  <a class="who" href="/">Patrick Thornham</a>
+  <a class="back" id="back-link" href="/">← Back to portfolio</a>
+</header>
+<div class="wrap">
+
+  <p class="eyebrow">Interactive demo · fictional company, dummy data</p>
+  <h1>One page that runs an entire webinar program.</h1>
+  <p class="lead">I built a tool that turns a team's messy planning notes into a complete, tracked webinar campaign: the brief, every UTM, every email, the recording page, the knowledge base article, and a checklist so nothing gets skipped. In production it cut end-to-end webinar time by <span class="mark">more than two-thirds</span>.</p>
+  <p class="note">This public version uses a made-up company (Brightwell Learning) and simulated results. The real tool's company data, content and integrations aren't included.</p>
+
+  <ol class="flow" aria-label="How the demo works">
+    <li><span class="n">1</span>Notes in</li><li class="arrow" aria-hidden="true">→</li>
+    <li><span class="n">2</span>Campaign out</li><li class="arrow" aria-hidden="true">→</li>
+    <li><span class="n">3</span>Results back</li>
+  </ol>
+
+  <!-- STEP 1 -->
+  <section class="step" aria-labelledby="s1">
+    <div class="step-head"><span class="n">1</span><div><h2 id="s1">Notes in</h2><p>Start from the notes taken in the pre-webinar planning meetings. Pick a sample, or edit the notes yourself, then choose where the webinar will be promoted.</p></div></div>
+    <div class="grid-in">
+      <div class="card">
+        <label class="lbl" for="preset">Sample planning notes</label>
+        <select id="preset">
+          <option value="a">Product webinar (complete notes)</option>
+          <option value="b">Chairs roundtable (notes with gaps)</option>
+        </select>
+        <label class="lbl" for="notes">Meeting notes <span style="font-weight:400;color:var(--muted)">(editable)</span></label>
+        <textarea id="notes" spellcheck="false"></textarea>
+      </div>
+      <div class="card">
+        <span class="lbl" id="plc-lbl">Placements to track</span>
+        <div class="checks" id="placements" role="group" aria-labelledby="plc-lbl"></div>
+        <p class="note" style="font-size:.82rem;margin:.75rem 0 0">Try unchecking one, then run step 3. Anything promoted without a UTM shows up as "untracked."</p>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" id="gen">Generate campaign</button>
+      <span class="note" id="gen-note"></span>
+    </div>
+  </section>
+
+  <!-- STEP 2 -->
+  <section class="step locked" id="step2" aria-labelledby="s2">
+    <div class="step-head"><span class="n">2</span><div><h2 id="s2">Campaign out</h2><p>Everything below was generated from the notes in one click, using one tracking standard.</p></div></div>
+    <div class="panel">
+      <div class="summary" id="summary"></div>
+      <div class="tabs" role="tablist" id="tabs"></div>
+      <div id="panes"></div>
+    </div>
+  </section>
+
+  <!-- STEP 3 -->
+  <section class="step locked" id="step3" aria-labelledby="s3">
+    <div class="step-head"><span class="n">3</span><div><h2 id="s3">Results back</h2><p>Run the webinar (simulated). Because every placement has its own UTM, each registration, MQL and dollar of pipeline traces back to where it came from.</p></div></div>
+    <div class="actions" style="margin-top:0;margin-bottom:1.25rem">
+      <button class="btn" id="run">Run the webinar</button>
+      <span class="note">Dummy data, generated for this demo.</span>
+    </div>
+    <div id="results"></div>
+  </section>
+
+  <p class="footnote">Demo built in plain HTML and JavaScript. The production tool uses AI to draft content from the notes; this public version uses templates so it runs anywhere with no data leaving the page. All names, companies, links and figures here are fictional.</p>
+</div>
+<div class="tip" id="tip" role="presentation"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+// back link: return to the portfolio page the visitor came from, else home
+(function(){
+  try {
+    const ref = document.referrer ? new URL(document.referrer) : null;
+    if (ref && ref.origin === location.origin && ref.pathname !== location.pathname) {
+      document.getElementById("back-link").href = ref.pathname + ref.hash;
+    }
+  } catch(e) {}
+})();
+(function(){
+"use strict";
+
+/* ---------- sample notes ---------- */
+const PRESETS = {
+a: `Planning call 10/14 - webinar w/ product + CS
+- topic: auto-graded labs in intro programming, what's new for spring
+- thinking Thu Jan 28, 1pm ET, 45 min
+- presenters: Dana Ortiz (product manager), Prof. Sam Lee (Ridgeview Community College)
+- how Sam cut weekly grading time with the lab autograder
+- want to cover new hint system + reporting dashboard
+- how to set up a first lab in under 10 minutes
+- Q&A last 15
+- CTA: start a free evaluation copy for spring
+- audience: CS instructors, department chairs
+- recording page + KB article after`,
+b: `Kickoff notes - spring chairs roundtable
+- topic: using course-level reporting to spot struggling students early
+- Wed Feb 10 at 2pm ET, 60 min
+- speakers: Priya Nand (customer success), Dr. Alan Brooks (chair, Lakeview State)
+- how Alan's dept reviews reports each week
+- show the new early-alert view
+- what to look at in week 3 vs week 8
+- Q&A last 20
+- audience: department chairs, course coordinators
+- still need to decide on the offer??`
+};
+
+/* ---------- placements (one tracking standard) ---------- */
+const PLACEMENTS = [
+  {id:"inv1", grp:"Before", label:"Invite email 1", src:"mcae", med:"email", content:"invite-1", dest:"reg", w:.30, mql:.07},
+  {id:"inv2", grp:"Before", label:"Invite email 2", src:"mcae", med:"email", content:"invite-2", dest:"reg", w:.18, mql:.07},
+  {id:"rem",  grp:"Before", label:"Reminder email", src:"mcae", med:"email", content:"reminder", dest:"reg", w:.08, mql:.06},
+  {id:"rep",  grp:"Before", label:"Rep share link", src:"sales", med:"rep-share", content:"rep-link", dest:"reg", w:.12, mql:.11},
+  {id:"li",   grp:"Before", label:"Paid LinkedIn", src:"linkedin", med:"paid-social", content:"sponsored-post", dest:"reg", w:.16, mql:.04},
+  {id:"web",  grp:"Before", label:"Website banner", src:"website", med:"banner", content:"home-banner", dest:"reg", w:.09, mql:.05},
+  {id:"eval", grp:"During", label:"In-webinar evaluation link", src:"zoom", med:"webinar", content:"eval-link", dest:"eval"},
+  {id:"fua",  grp:"After",  label:"Follow-up email (attended)", src:"mcae", med:"email", content:"followup-attended", dest:"rec"},
+  {id:"fum",  grp:"After",  label:"Follow-up email (missed it)", src:"mcae", med:"email", content:"followup-missed", dest:"rec"},
+  {id:"rpc",  grp:"After",  label:"Recording page CTA", src:"website", med:"landing-page", content:"recording-cta", dest:"eval"}
+];
+
+const SITE = "https://www.brightwell-learning.example";
+const EVAL_URL = SITE + "/evaluate";
+const MONTHS = ["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"];
+const MONTH_NAMES = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const STOP = new Set(["a","an","the","in","of","for","to","and","on","with","what's","whats","new","using","how"]);
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+const SMALL = new Set(["a","an","the","in","of","for","to","and","on","with","vs","at","by","or"]);
+function titleCase(s){
+  return s.split(/\s+/).map((w,i)=>{
+    const lw = w.toLowerCase();
+    if (i>0 && SMALL.has(lw)) return lw;
+    return w.split("-").map(p=>cap(p)).join("-");
+  }).join(" ");
+}
+const fmtInt = n => Math.round(n).toLocaleString("en-US");
+const fmtMoney = n => "$" + (n>=1e6 ? (n/1e6).toFixed(2)+"M" : n>=1000 ? Math.round(n/1000)+"K" : Math.round(n));
+
+/* ---------- notes parser ---------- */
+function parseNotes(text){
+  const lines = text.split(/\n/).map(l=>l.trim()).filter(Boolean);
+  const out = {title:"", topic:"", date:null, time:"", tz:"", duration:45, presenters:[], cta:"", audience:"", qa:0, points:[], open:[], afterAssets:false};
+  let firstPlain = true;
+  for (const raw of lines){
+    const isBullet = /^[-*•]/.test(raw);
+    const l = raw.replace(/^[-*•]\s*/,"");
+    const low = l.toLowerCase();
+    if (!isBullet && firstPlain){ firstPlain=false; continue; } // meeting header
+    let m;
+    if ((m = l.match(/^title\s*[:\-]\s*(.+)$/i))) { out.title = m[1].trim(); continue; }
+    if ((m = l.match(/^topic\s*[:\-]\s*(.+)$/i))) { out.topic = m[1].trim(); continue; }
+    if ((m = l.match(/^(presenters?|speakers?|panel(ists)?)\s*[:\-]\s*(.+)$/i))) {
+      out.presenters = m[3].split(/,(?![^()]*\))/).map(p=>{
+        const pm = p.trim().match(/^([^(]+)(?:\(([^)]*)\))?/);
+        return pm ? {name:pm[1].trim(), role:(pm[2]||"").trim()} : null;
+      }).filter(p=>p && p.name);
+      continue;
+    }
+    if ((m = l.match(/^(cta|offer|call to action)\s*[:\-]\s*(.+)$/i))) { out.cta = m[2].trim(); continue; }
+    if ((m = l.match(/^audience\s*[:\-]\s*(.+)$/i))) { out.audience = m[1].trim(); continue; }
+    if (/q\s*&\s*a|q and a/i.test(l)) { const q=l.match(/(\d+)/); out.qa = q?+q[1]:15; continue; }
+    if (/\?\?|\btbd\b|still need|not sure|decide/i.test(low)) { out.open.push(l.replace(/\?+$/,"")); continue; }
+    if (/recording page|kb article|knowledge base/i.test(low)) { out.afterAssets = true; continue; }
+    const dm = l.match(new RegExp("\\b("+MONTHS.join("|")+")[a-z]*\\.?\\s+(\\d{1,2})\\b","i"));
+    if (dm){
+      const mi = MONTHS.indexOf(dm[1].slice(0,3).toLowerCase()), day = +dm[2];
+      const now = new Date(); let yr = now.getFullYear();
+      let d = new Date(yr, mi, day);
+      if (d < new Date(now.getFullYear(), now.getMonth(), now.getDate())) d = new Date(yr+1, mi, day);
+      out.date = d;
+      const tm = l.match(/\b(\d{1,2})(?::(\d{2}))?\s*(am|pm)\s*(et|ct|mt|pt)?\b/i);
+      if (tm){ out.time = tm[1] + (tm[2]?":"+tm[2]:"") + " " + tm[3].toUpperCase() + (tm[4]?" "+tm[4].toUpperCase():""); }
+      const du = l.match(/(\d{2,3})\s*min/i); if (du) out.duration = +du[1];
+      continue;
+    }
+    const du = l.match(/^(\d{2,3})\s*min/i); if (du){ out.duration=+du[1]; continue; }
+    if (isBullet){
+      let p = l.replace(/^(want to cover|we should|should|maybe|also)\s+/i,"").replace(/\s\+\s/g," and ").replace(/\s{2,}/g," ");
+      out.points.push(cap(p));
+    }
+  }
+  if (!out.title && out.topic){
+    const parts = out.topic.split(/\s*,\s*/);
+    out.title = titleCase(parts[0]) + (parts[1] ? ": " + titleCase(parts[1]) : "");
+  }
+  return out;
+}
+
+function slugify(title){
+  const words = title.toLowerCase().replace(/[^a-z0-9\s-]/g," ").split(/[\s-]+/).filter(w=>w && !STOP.has(w));
+  return words.slice(0,4).join("-") || "webinar";
+}
+function fmtDate(d, withYear=true){
+  if (!d) return "";
+  return d.toLocaleDateString("en-US", {weekday:"short", month:"short", day:"numeric", ...(withYear?{year:"numeric"}:{})});
+}
+function addDays(d,n){ const x=new Date(d); x.setDate(x.getDate()+n); return x; }
+
+/* ---------- build campaign ---------- */
+let state = null;
+
+function build(){
+  const notes = $("#notes").value;
+  const p = parseNotes(notes);
+  const chosen = PLACEMENTS.filter(pl => $("#pl-"+pl.id).checked);
+  const title = p.title || "Untitled Webinar";
+  const slug = slugify(title);
+  const ym = p.date ? `${p.date.getFullYear()}-${String(p.date.getMonth()+1).padStart(2,"0")}` : "yyyy-mm";
+  const campaign = `${ym}_webinar_${slug}`;
+  const regUrl = `${SITE}/webinars/${slug}`;
+  const recUrl = `${regUrl}/recording`;
+  const flags = [];
+  if (!p.date) flags.push("No date found in the notes. Add a date and time so the send schedule can be built.");
+  if (!p.cta) flags.push("No call to action found. Emails and the recording page use a placeholder until one is chosen.");
+  if (!p.presenters.length) flags.push("No presenters listed. Invites need names and titles.");
+  p.open.forEach(o => flags.push(`Open item from the notes: "${o}."`));
+  if (!chosen.find(c=>c.id==="eval")) flags.push("No tracked in-webinar link. Demand created during the live session won't be traceable.");
+  if (!chosen.length) flags.push("No placements selected, so no tracked links were created.");
+
+  const ctaText = p.cta ? cap(p.cta) : "[Add call to action]";
+  const ctaBtn = p.cta ? cap(p.cta.split(/\s+for\s+/i)[0]) : "[CTA button]";
+  const links = chosen.map(pl => {
+    const base = pl.dest==="reg" ? regUrl : pl.dest==="rec" ? recUrl : EVAL_URL;
+    const url = `${base}?utm_source=${pl.src}&utm_medium=${pl.med}&utm_campaign=${campaign}&utm_content=${pl.content}`;
+    return {...pl, url, destLabel: pl.dest==="reg"?"Registration":pl.dest==="rec"?"Recording page":"Evaluation"};
+  });
+  const L = id => (links.find(x=>x.id===id)||{}).url;
+
+  // agenda
+  const welcome = 5, qa = p.qa || 0;
+  const pts = p.points.length ? p.points : ["Main presentation"];
+  const each = Math.max(5, Math.round((p.duration - welcome - qa) / pts.length));
+  const agenda = [{t:welcome, s:"Welcome and introductions"}].concat(pts.map(s=>({t:each, s})));
+  if (qa) agenda.push({t:qa, s:"Live Q&A"});
+
+  const d = p.date;
+  const when = d ? `${fmtDate(d)}${p.time ? " at " + p.time : ""}` : "[Date and time TBD]";
+  const schedule = [
+    {off:-21, what:"Invite email 1 sends", id:"inv1"},
+    {off:-21, what:"Paid LinkedIn and website banner go live", id:"li"},
+    {off:-14, what:"Rep share link sent to sales team", id:"rep"},
+    {off:-10, what:"Invite email 2 sends", id:"inv2"},
+    {off:-1,  what:"Reminder email sends to registrants", id:"rem"},
+    {off:0,   what:"Live webinar; evaluation link shared in chat", id:"eval"},
+    {off:1,   what:"Follow-up emails send (attended / missed it)", id:"fua"},
+    {off:2,   what:"Recording page and KB article published", id:null}
+  ].map(r => ({...r, date: d ? fmtDate(addDays(d, r.off), false) : (r.off===0?"Day of":(r.off<0?`${-r.off} days before`:`${r.off} day${r.off>1?"s":""} after`)), active: r.id===null || chosen.some(c=>c.id===r.id || (r.id==="li" && c.id==="web") || (r.id==="fua" && c.id==="fum"))}));
+
+  const presenterLine = p.presenters.length ? p.presenters.map(x=>x.name + (x.role?` (${x.role})`:"")).join(" and ") : "[Presenters TBD]";
+  const presenterShort = p.presenters.length ? p.presenters.map(x=>x.name).join(" and ") : "our team";
+  const bullets = pts.map(s=>"  • "+s).join("\n");
+
+  const emails = [];
+  if (L("inv1")) emails.push({id:"inv1", label:"Invite 1", send: schedule[0].date, subj:`You're invited: ${title}`, body:
+`Hi {{Recipient.FirstName}},
+
+Join ${presenterShort} for a ${p.duration}-minute live session on ${when}.
+
+What you'll see:
+${bullets}
+${qa?`\nWe'll save the last ${qa} minutes for your questions.\n`:""}
+Save your seat: ${L("inv1")}
+
+Can't make it live? Register anyway and we'll send you the recording.
+
+The Brightwell Learning team`});
+  if (L("inv2")) emails.push({id:"inv2", label:"Invite 2", send: schedule[3].date, subj:`${d?fmtDate(d,false)+": ":""}${title}`, body:
+`Hi {{Recipient.FirstName}},
+
+A quick reminder that registration is open for ${title}${d?` on ${when}`:""}.
+
+${p.presenters[1] ? `${p.presenters[1].name}${p.presenters[1].role?` (${p.presenters[1].role})`:""} will share what's working in a real course` : "You'll hear what's working in real courses"}, and ${p.presenters[0]?p.presenters[0].name:"our team"} will show what's new.
+
+Register here: ${L("inv2")}
+
+The Brightwell Learning team`});
+  if (L("rem")) emails.push({id:"rem", label:"Reminder", send: schedule[4].date, subj:`Tomorrow: ${title}`, body:
+`Hi {{Recipient.FirstName}},
+
+See you tomorrow${p.time?` at ${p.time}`:""}! Your join link is in your registration confirmation.
+
+Agenda:
+${agenda.map(a=>`  • ${a.s} (${a.t} min)`).join("\n")}
+
+Add a colleague: ${L("rem")}`});
+  if (L("fua")) emails.push({id:"fua", label:"Follow-up: attended", send: schedule[6].date, subj:`Thanks for joining: recording and next step`, body:
+`Hi {{Recipient.FirstName}},
+
+Thanks for joining ${title}. Here's the recording to rewatch or share with colleagues:
+${L("fua")}
+
+Ready to try it in your own course? ${ctaText}:
+${EVAL_URL}
+
+The Brightwell Learning team`});
+  if (L("fum")) emails.push({id:"fum", label:"Follow-up: missed it", send: schedule[6].date, subj:`Sorry we missed you: watch ${title}`, body:
+`Hi {{Recipient.FirstName}},
+
+We missed you at ${title}, but the full recording is ready:
+${L("fum")}
+
+Highlights:
+${bullets}
+
+The Brightwell Learning team`});
+
+  const lpHtml =
+`<section class="webinar-recording">
+  <header>
+    <p class="kicker">Webinar recording</p>
+    <h1>${esc(title)}</h1>
+    <p>${esc(presenterLine)}</p>
+  </header>
+  <div class="video-embed"><!-- recording embed goes here --></div>
+  <h2>What we covered</h2>
+  <ul>
+${pts.map(s=>`    <li>${esc(s)}</li>`).join("\n")}
+  </ul>
+  <a class="cta" href="${esc(L("rpc")||EVAL_URL)}">${esc(ctaBtn)}</a>
+</section>`;
+
+  const kbTitle = `Webinar recap: ${title}`;
+  const kbText =
+`${kbTitle}
+Category: Webinars and training
+
+Summary
+In this ${p.duration}-minute session, ${presenterLine} covered the topics below.${p.audience?` Recommended for: ${p.audience}.`:""}
+
+Watch the recording
+${recUrl}
+
+Key takeaways
+${pts.map((s,i)=>`${i+1}. ${s}`).join("\n")}
+
+Next step
+${ctaText}: ${EVAL_URL}`;
+
+  const auto = [
+    "Planning notes turned into a brief, agenda and send schedule",
+    `${links.length} tracked link${links.length===1?"":"s"} created with one naming standard`,
+    `${emails.length} email${emails.length===1?"":"s"} drafted with tracked links`,
+    "Recording landing page HTML built",
+    "Knowledge base article drafted"
+  ];
+  const manual = [
+    "Create the Zoom webinar and registration form",
+    "Connect Zoom registrations to MCAE (Zapier)",
+    "Load emails into MCAE and schedule sends",
+    "Add presenters as panelists and run a tech check",
+    ...(L("eval") ? ["Share the in-webinar evaluation link in chat"] : []),
+    "Upload the recording and add it to the recording page",
+    "Publish the KB article"
+  ];
+
+  state = {p, title, slug, campaign, regUrl, recUrl, links, agenda, schedule, emails, lpHtml, kbTitle, kbText, flags, auto, manual, when, presenterLine, ctaText, ctaBtn, chosen, pts, manualDone:new Set()};
+  render();
+}
+
+/* ---------- render step 2 ---------- */
+const TABS = [
+  {id:"brief", label:"Brief"},
+  {id:"utms", label:"UTMs"},
+  {id:"emails", label:"Emails"},
+  {id:"page", label:"Recording page"},
+  {id:"kb", label:"KB article"},
+  {id:"check", label:"Checklist"}
+];
+let copyStore = {};
+
+function render(){
+  const s = state;
+  copyStore = {};
+  $("#step2").classList.remove("locked");
+  $("#step3").classList.remove("locked");
+  $("#results").innerHTML = "";
+  $("#run").textContent = "Run the webinar";
+
+  const assets = s.links.length + s.emails.length + 2;
+  $("#summary").innerHTML = `
+    <div><b>${assets}</b><span>assets generated</span></div>
+    <div><b>${s.links.length}</b><span>tracked links</span></div>
+    <div><b>${s.emails.length}</b><span>emails drafted</span></div>
+    <div><b>${s.flags.length}</b><span>item${s.flags.length===1?"":"s"} flagged for review</span></div>`;
+
+  $("#tabs").innerHTML = TABS.map((t,i)=>`<button role="tab" id="tab-${t.id}" aria-controls="pane-${t.id}" aria-selected="${i===0}" tabindex="${i===0?0:-1}">${t.label}${t.id==="check"&&s.flags.length?`<span class="flag" aria-label="${s.flags.length} flags">${s.flags.length}</span>`:""}</button>`).join("");
+
+  const panes = {};
+  panes.brief = `
+    <div class="pane-top"><h3>Webinar brief</h3></div>
+    <div class="two">
+      <div>
+        <dl class="brief">
+          <dt>Title</dt><dd>${esc(s.title)}</dd>
+          <dt>When</dt><dd>${esc(s.when)}</dd>
+          <dt>Length</dt><dd>${s.p.duration} minutes</dd>
+          <dt>Presenters</dt><dd>${esc(s.presenterLine)}</dd>
+          <dt>Audience</dt><dd>${esc(s.p.audience||"[Audience TBD]")}</dd>
+          <dt>Call to action</dt><dd>${esc(s.ctaText)}</dd>
+          <dt>Campaign name</dt><dd class="url">${esc(s.campaign)}</dd>
+        </dl>
+        <h3>Agenda</h3>
+        <ul class="tidy">${s.agenda.map(a=>`<li>${esc(a.s)} <span style="color:var(--muted)">(${a.t} min)</span></li>`).join("")}</ul>
+      </div>
+      <div>
+        <h3>Send schedule</h3>
+        <ul class="timeline">${s.schedule.filter(r=>r.active).map(r=>`<li><span class="when">${esc(r.date)}</span><span>${esc(r.what)}</span></li>`).join("")}</ul>
+      </div>
+    </div>`;
+
+  copyStore.utms = s.links.map(l=>`${l.label}\t${l.url}`).join("\n");
+  panes.utms = `
+    <div class="pane-top"><h3>Tracked links</h3>${s.links.length?`<button class="btn ghost" data-copy="utms">Copy all</button>`:""}</div>
+    ${s.links.length ? `<table><thead><tr><th>Placement</th><th>Goes to</th><th>URL</th><th></th></tr></thead><tbody>
+    ${s.links.map(l=>{copyStore["u-"+l.id]=l.url; return `<tr><td>${esc(l.label)}</td><td><span class="tag">${l.destLabel}</span></td><td class="url">${esc(l.url)}</td><td><button class="btn ghost" data-copy="u-${l.id}" aria-label="Copy ${esc(l.label)} link">Copy</button></td></tr>`;}).join("")}
+    </tbody></table>
+    <p class="note" style="margin-top:.9rem">Same source, medium and campaign rules every time, so each link rolls up cleanly in attribution reporting.</p>` : `<p>No placements selected.</p>`}`;
+
+  panes.emails = `<div class="pane-top"><h3>Email drafts</h3></div>` + (s.emails.length ? s.emails.map(e=>{
+    copyStore["e-"+e.id] = `Subject: ${e.subj}\n\n${e.body}`;
+    return `<article class="email"><header><div><div class="meta">${esc(e.label)} · sends ${esc(e.send)}</div><div class="subj">${esc(e.subj)}</div></div><button class="btn ghost" data-copy="e-${e.id}" aria-label="Copy ${esc(e.label)} email">Copy</button></header><div class="body">${linkify(esc(e.body))}</div></article>`;
+  }).join("") : `<p>No email placements selected.</p>`);
+
+  copyStore.lp = s.lpHtml;
+  panes.page = `
+    <div class="pane-top"><h3>Recording landing page</h3><button class="btn ghost" data-copy="lp">Copy HTML</button></div>
+    <div class="lp" aria-label="Recording page preview">
+      <div class="lp-hero"><small>Webinar recording</small><h4>${esc(s.title)}</h4><div style="font-size:.92rem;opacity:.9">${esc(s.presenterLine)}</div></div>
+      <div class="lp-body">
+        <div class="video">Recording embed<br>(added after the live session)</div>
+        <div><h3>What we covered</h3><ul class="tidy">${s.pts.map(x=>`<li>${esc(x)}</li>`).join("")}</ul><a class="cta" href="#" onclick="return false">${esc(s.ctaBtn)}</a></div>
+      </div>
+    </div>`;
+
+  copyStore.kb = s.kbText;
+  panes.kb = `
+    <div class="pane-top"><h3>Knowledge base article</h3><button class="btn ghost" data-copy="kb">Copy</button></div>
+    <div class="kb">
+      <div class="crumb">Help center › Webinars and training</div>
+      <h4>${esc(s.kbTitle)}</h4>
+      <p>In this ${s.p.duration}-minute session, ${esc(s.presenterLine)} covered the topics below.${s.p.audience?` Recommended for: ${esc(s.p.audience)}.`:""}</p>
+      <h3>Watch the recording</h3><p class="url">${esc(s.recUrl)}</p>
+      <h3>Key takeaways</h3><ol class="tidy">${s.pts.map(x=>`<li>${esc(x)}</li>`).join("")}</ol>
+      <h3>Next step</h3><p>${esc(s.ctaText)}</p>
+    </div>`;
+
+  panes.check = checklistHtml();
+
+  $("#panes").innerHTML = TABS.map((t,i)=>`<div class="pane" role="tabpanel" id="pane-${t.id}" aria-labelledby="tab-${t.id}" ${i===0?"":"hidden"}>${panes[t.id]}</div>`).join("");
+  $("#step2").scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+function checklistHtml(){
+  const s = state;
+  const total = s.auto.length + s.manual.length;
+  const done = s.auto.length + s.manualDone.size;
+  const pct = Math.round(done/total*100);
+  return `
+    <div class="pane-top"><h3>Launch checklist</h3><span class="note" style="margin:0">${done} of ${total} done · ${s.auto.length} handled by the tool</span></div>
+    <div class="progress" aria-hidden="true"><i style="width:${pct}%"></i></div>
+    ${s.flags.length ? s.flags.map(f=>`<div class="warn"><span class="ico" aria-hidden="true">!</span><span><strong>Needs attention:</strong> ${esc(f)}</span></div>`).join("") : `<div class="ok"><span aria-hidden="true">✓</span><span><strong>No gaps found</strong> in the notes or tracking.</span></div>`}
+    <ul class="cl" style="margin-top:.75rem">
+      ${s.auto.map(a=>`<li><input type="checkbox" checked disabled aria-label="${esc(a)} (done)"><span>${esc(a)}</span><span class="who tag">Tool</span></li>`).join("")}
+      ${s.manual.map((m,i)=>`<li><input type="checkbox" id="mc-${i}" data-mc="${i}" ${s.manualDone.has(i)?"checked":""}><label for="mc-${i}">${esc(m)}</label><span class="who tag" style="background:#F1E7C6">Team</span></li>`).join("")}
+    </ul>`;
+}
+
+function linkify(html){
+  return html.replace(/(https:\/\/[^\s<]+)/g, '<a href="#" onclick="return false">$1</a>');
+}
+
+/* ---------- step 3: simulated results ---------- */
+function hash(str){ let h=2166136261; for (let i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619);} return h>>>0; }
+function rng(seed){ return function(){ seed|=0; seed=seed+0x6D2B79F5|0; let t=Math.imul(seed^seed>>>15,1|seed); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+
+let metric = "regs", results = null;
+
+function simulate(){
+  const s = state, r = rng(hash(s.slug));
+  const chosenIds = new Set(s.chosen.map(c=>c.id));
+  const rows = {};
+  const add = (key,label,o)=>{ rows[key] = rows[key] || {key,label,regs:0,mql:0,opps:0,pipe:0,untracked:key==="untracked",star:false}; for (const k in o) rows[key][k]+=o[k]; };
+  const regTotal = 300 + Math.round(r()*160);
+  let regs=0;
+  // registration-driving placements
+  PLACEMENTS.filter(p=>p.dest==="reg").forEach(p=>{
+    const n = Math.round(regTotal*p.w*(0.85+0.3*r()));
+    const m = n*p.mql*(0.85+0.3*r());
+    regs += n;
+    const key = chosenIds.has(p.id) ? p.id : "untracked";
+    add(key, chosenIds.has(p.id)?p.label:"Untracked (no UTM)", {regs:n, mql:m});
+  });
+  // organic / word of mouth, always untracked
+  const org = Math.round(regTotal*.06*(0.8+0.4*r())); regs += org;
+  add("untracked","Untracked (no UTM)",{regs:org, mql:org*.05});
+  const attendRate = 0.41 + r()*0.09;
+  const attended = Math.round(regs*attendRate), missed = regs-attended;
+  // live + post
+  const post = [
+    {id:"eval", label:"In-webinar evaluation link", mql: attended*(0.22+r()*0.08)*0.62},
+    {id:"fua",  label:"Follow-up email (attended)", mql: attended*(0.03+r()*0.02)},
+    {id:"fum",  label:"Follow-up email (missed it)", mql: missed*(0.02+r()*0.015)},
+    {id:"rpc",  label:"Recording page CTA", mql: missed*0.3*(0.06+r()*0.04)}
+  ];
+  post.forEach(p=>{ const key = chosenIds.has(p.id)?p.id:"untracked"; add(key, chosenIds.has(p.id)?p.label:"Untracked (no UTM)", {mql:p.mql}); });
+  const avgDeal = 14000 + Math.round(r()*5000);
+  Object.values(rows).forEach(row=>{
+    row.mql = Math.round(row.mql);
+    row.opps = Math.round(row.mql*(0.2+r()*0.08));
+    row.pipe = Math.round(row.opps*avgDeal*(0.9+0.2*r())/500)*500;
+  });
+  const list = Object.values(rows);
+  const tracked = list.filter(x=>!x.untracked && x.mql>0);
+  const bestRate = tracked.slice().sort((a,b)=>b.mql-a.mql)[0];
+  if (rows.eval) rows.eval.star = true;
+  const tot = list.reduce((a,x)=>({regs:a.regs+x.regs, mql:a.mql+x.mql, opps:a.opps+x.opps, pipe:a.pipe+x.pipe}),{regs:0,mql:0,opps:0,pipe:0});
+  results = {list, tot, attended, attendRate: attended/regs, best: bestRate};
+}
+
+const METRICS = {regs:{label:"Registrations", fmt:fmtInt}, mql:{label:"MQLs", fmt:fmtInt}, pipe:{label:"Pipeline", fmt:fmtMoney}};
+
+function renderResults(){
+  const R = results, M = METRICS[metric];
+  const rows = R.list.filter(x=>x[metric]>0).sort((a,b)=> (a.untracked-b.untracked) || (b[metric]-a[metric]));
+  const max = Math.max(...rows.map(x=>x[metric]), 1);
+  const total = rows.reduce((a,x)=>a+x[metric],0);
+  const un = R.list.find(x=>x.untracked);
+  const unShare = un ? un.mql / R.tot.mql : 0;
+  const evalRow = R.list.find(x=>x.key==="eval");
+
+  let takeaway;
+  if (evalRow){
+    const rank = R.list.filter(x=>!x.untracked).sort((a,b)=>b.mql-a.mql).findIndex(x=>x.key==="eval")+1;
+    takeaway = `<p><strong>The link shared during the live session produced ${fmtInt(evalRow.mql)} MQLs${rank===1?", more than any other placement":rank<=3?`, ranking #${rank} of all placements`:""}.</strong> That's only visible because it had its own UTM.</p><p>The same thing happened with the real tool: a colleague started sharing a tracked evaluation link during webinars, the reporting showed a strong return, and it became standard practice.</p>`;
+  } else {
+    takeaway = `<p><strong>Without a tracked in-webinar link, ${Math.round(unShare*100)}% of MQLs can't be traced to any placement.</strong> Go back to step 1, check "In-webinar evaluation link," and generate again to see the difference.</p>`;
+  }
+
+  $("#results").innerHTML = `
+    <div class="kpis">
+      <div class="kpi"><span>Registrations</span><b>${fmtInt(R.tot.regs)}</b></div>
+      <div class="kpi"><span>Attended</span><b>${fmtInt(R.attended)}</b><small>${Math.round(R.attendRate*100)}% of registrants</small></div>
+      <div class="kpi"><span>MQLs</span><b>${fmtInt(R.tot.mql)}</b></div>
+      <div class="kpi"><span>Opportunities</span><b>${fmtInt(R.tot.opps)}</b><small>within 90 days of MQL</small></div>
+      <div class="kpi"><span>Pipeline</span><b>${fmtMoney(R.tot.pipe)}</b><small>dummy figures</small></div>
+    </div>
+    <div class="card">
+      <div class="chart-top">
+        <h3 style="margin:0" id="chart-title">${M.label} by placement</h3>
+        <div class="seg" role="group" aria-label="Metric">
+          ${Object.entries(METRICS).map(([k,v])=>`<button data-metric="${k}" aria-pressed="${k===metric}">${v.label}</button>`).join("")}
+        </div>
+      </div>
+      <div class="bars" role="list" aria-labelledby="chart-title">
+        ${rows.map(x=>`<div class="bar-row${x.untracked?" untracked":""}${x.star&&metric!=="regs"?" star":""}" role="listitem" tabindex="0" data-tip="${esc(x.label)}: ${M.fmt(x[metric])} (${Math.round(x[metric]/total*100)}% of ${M.label.toLowerCase()})">
+          <span class="name">${esc(x.label)}</span>
+          <span class="track"><span class="fill" style="width:${(x[metric]/max*100).toFixed(1)}%"></span></span>
+          <span class="val">${M.fmt(x[metric])}</span>
+        </div>`).join("")}
+      </div>
+      <details style="margin-top:1rem">
+        <summary style="cursor:pointer;font-weight:600;font-size:.9rem">Show as table</summary>
+        <table style="margin-top:.6rem"><thead><tr><th>Placement</th><th class="num">Registrations</th><th class="num">MQLs</th><th class="num">Opps</th><th class="num">Pipeline</th></tr></thead>
+        <tbody>${R.list.slice().sort((a,b)=>(a.untracked-b.untracked)||(b.pipe-a.pipe)).map(x=>`<tr><td>${esc(x.label)}</td><td class="num">${x.regs?fmtInt(x.regs):"–"}</td><td class="num">${fmtInt(x.mql)}</td><td class="num">${fmtInt(x.opps)}</td><td class="num">${fmtMoney(x.pipe)}</td></tr>`).join("")}</tbody></table>
+      </details>
+    </div>
+    <div class="callout">${takeaway}</div>`;
+}
+
+/* ---------- events ---------- */
+function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove("show"),1600); }
+
+async function copyText(text){
+  try { await navigator.clipboard.writeText(text); toast("Copied"); }
+  catch(e){
+    const ta=document.createElement("textarea"); ta.value=text; ta.style.position="fixed"; ta.style.opacity="0"; document.body.appendChild(ta); ta.select();
+    let ok=false; try{ ok=document.execCommand("copy"); }catch(_){}
+    ta.remove(); toast(ok?"Copied":"Copy isn't available here");
+  }
+}
+
+document.addEventListener("click", e=>{
+  const c = e.target.closest("[data-copy]"); if (c){ copyText(copyStore[c.dataset.copy]||""); return; }
+  const t = e.target.closest('[role="tab"]'); if (t){ selectTab(t.id.replace("tab-","")); return; }
+  const m = e.target.closest("[data-metric]"); if (m){ metric=m.dataset.metric; renderResults(); return; }
+});
+document.addEventListener("change", e=>{
+  if (e.target.matches("[data-mc]")){
+    const i=+e.target.dataset.mc; e.target.checked ? state.manualDone.add(i) : state.manualDone.delete(i);
+    $("#pane-check").innerHTML = checklistHtml();
+    const el = document.getElementById("mc-"+i); if (el) el.focus();
+  }
+});
+$("#tabs").addEventListener("keydown", e=>{
+  if (!["ArrowRight","ArrowLeft"].includes(e.key)) return;
+  const ids = TABS.map(t=>t.id); const cur = ids.indexOf(document.activeElement.id.replace("tab-",""));
+  const next = ids[(cur + (e.key==="ArrowRight"?1:-1) + ids.length) % ids.length];
+  selectTab(next); document.getElementById("tab-"+next).focus(); e.preventDefault();
+});
+function selectTab(id){
+  TABS.forEach(t=>{
+    const b=document.getElementById("tab-"+t.id), p=document.getElementById("pane-"+t.id);
+    const on = t.id===id; b.setAttribute("aria-selected",on); b.tabIndex = on?0:-1; p.hidden=!on;
+  });
+}
+
+// tooltip
+const tip = $("#tip");
+function showTip(el, x, y){ tip.textContent = el.dataset.tip; tip.style.display="block"; tip.style.left=x+"px"; tip.style.top=y+"px"; }
+document.addEventListener("mousemove", e=>{
+  const row = e.target.closest(".bar-row");
+  if (!row){ tip.style.display="none"; return; }
+  showTip(row, e.pageX, e.pageY - 8);
+});
+document.addEventListener("focusin", e=>{
+  const row = e.target.closest && e.target.closest(".bar-row");
+  if (row){ const b=row.querySelector(".fill").getBoundingClientRect(); showTip(row, b.left+window.scrollX+b.width/2, b.top+window.scrollY-6); }
+  else tip.style.display="none";
+});
+
+$("#gen").addEventListener("click", ()=>{ build(); $("#gen-note").textContent = "Generated. Edit the notes or placements and generate again anytime."; });
+$("#run").addEventListener("click", ()=>{
+  if (!state) return;
+  simulate(); renderResults(); $("#run").textContent = "Run it again";
+});
+$("#preset").addEventListener("change", e=>{ $("#notes").value = PRESETS[e.target.value]; });
+
+// init
+$("#notes").value = PRESETS.a;
+let lastGrp = "";
+$("#placements").innerHTML = PLACEMENTS.map(p=>{
+  let h = "";
+  if (p.grp!==lastGrp){ h += `<div class="grp">${p.grp} the webinar</div>`; lastGrp=p.grp; }
+  return h + `<label><input type="checkbox" id="pl-${p.id}" checked><span>${p.label}</span></label>`;
+}).join("");
+})();
+</script>
+</body>
+</html>
