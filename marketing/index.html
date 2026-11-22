@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Patrick Thornham · Product marketing</title>
+<meta name="description" content="Patrick Thornham takes products to market: research, messaging, launches, sales enablement and customer self-service.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F5F7F3;
+    --ink: #1D2A24;
+    --green: #2E5E4E;
+    --green-deep: #234A3D;
+    --muted: #56665E;
+    --line: #D3DBD5;
+    --mark: #F2C94C;
+    --measure: 40rem;
+    --wide: 68rem;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Schibsted Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 1.125rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--green); text-underline-offset: 0.18em; }
+  a:hover { color: var(--ink); }
+  :focus-visible { outline: 3px solid var(--mark); outline-offset: 3px; border-radius: 2px; }
+  .wrap { max-width: var(--wide); margin: 0 auto; padding: 0 1.5rem; }
+
+  /* Header */
+  .site-header { padding: 1.5rem 0; }
+  .site-header .wrap { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+  .site-name { font-weight: 800; text-decoration: none; color: var(--ink); font-size: 1.05rem; }
+  .site-nav { display: flex; gap: 1.5rem; font-size: 1rem; }
+  .site-nav a { color: var(--muted); text-decoration: none; }
+  .site-nav a:hover { color: var(--ink); text-decoration: underline; }
+
+  /* Hero */
+  .hero { padding: 4.5rem 0 3.5rem; }
+  .hero h1 {
+    font-size: clamp(2.5rem, 6.4vw, 4.6rem);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    font-weight: 800;
+    max-width: 15ch;
+    margin: 0 0 1.75rem;
+  }
+  .lead { font-size: 1.3rem; line-height: 1.5; color: var(--muted); max-width: 36rem; margin: 0; }
+
+  /* Proof */
+  .proof {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+  }
+  .proof li { border-top: 2px solid var(--ink); padding-top: 1rem; font-size: 1.15rem; line-height: 1.45; }
+  .proof strong { display: block; font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 0.35rem; font-variant-numeric: tabular-nums; }
+  mark {
+    background: linear-gradient(transparent 58%, var(--mark) 58%, var(--mark) 92%, transparent 92%);
+    color: inherit; padding: 0 0.08em;
+  }
+
+  /* Sections */
+  section { padding: 5rem 0 0; }
+  h2 { font-size: 2rem; letter-spacing: -0.02em; line-height: 1.15; margin: 0 0 0.75rem; font-weight: 800; }
+  .section-intro { color: var(--muted); max-width: var(--measure); margin: 0 0 2rem; }
+
+  /* Case studies */
+  .cases { border-bottom: 1px solid var(--line); }
+  .case { border-top: 1px solid var(--line); }
+  .case summary {
+    list-style: none; cursor: pointer;
+    display: grid; grid-template-columns: 1fr auto; gap: 0.25rem 1.5rem; align-items: baseline;
+    padding: 1.5rem 0;
+  }
+  .case summary::-webkit-details-marker { display: none; }
+  .case-title { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.01em; line-height: 1.3; }
+  .case-result { grid-column: 1; color: var(--muted); }
+  .case-toggle {
+    grid-column: 2; grid-row: 1 / span 2; align-self: center;
+    width: 2rem; height: 2rem; border: 1.5px solid var(--ink); border-radius: 50%;
+    position: relative;
+  }
+  .case-toggle::before, .case-toggle::after {
+    content: ""; position: absolute; left: 50%; top: 50%; background: var(--ink);
+    width: 0.8rem; height: 1.5px; transform: translate(-50%, -50%);
+  }
+  .case-toggle::after { transform: translate(-50%, -50%) rotate(90deg); transition: transform 0.2s ease; }
+  .case[open] .case-toggle::after { transform: translate(-50%, -50%) rotate(0deg); }
+  .case summary:hover .case-title { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.2em; }
+  .case-body {
+    display: grid; grid-template-columns: 11rem 1fr; gap: 0.5rem 2rem;
+    padding: 0 0 2rem; max-width: 56rem;
+  }
+  .case-body h3 { font-size: 1rem; font-weight: 700; margin: 0; color: var(--green); padding-top: 0.15rem; }
+  .case-body p { margin: 0 0 1.25rem; max-width: var(--measure); }
+  .case-body ul { margin: 0 0 1.25rem; padding-left: 1.1rem; max-width: var(--measure); }
+  .case-body li { margin-bottom: 0.35rem; }
+
+  /* Tool */
+  .tool-section { padding-top: 5rem; }
+  .tool {
+    background: var(--green-deep); color: var(--paper);
+    border-radius: 6px; padding: 2.5rem;
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 2.5rem;
+  }
+  .tool h2 { color: var(--paper); }
+  .tool .section-intro { color: #C9D6CF; }
+  .tool form { display: grid; gap: 1.25rem; }
+  .field label, fieldset legend { display: block; font-weight: 700; font-size: 1rem; margin-bottom: 0.4rem; }
+  .field input {
+    width: 100%; font: inherit; font-size: 1rem;
+    padding: 0.7rem 0.8rem; border-radius: 4px;
+    border: 1.5px solid #6F8F82; background: #F5F7F3; color: var(--ink);
+  }
+  .hint { font-size: 0.9rem; color: #C9D6CF; margin: 0.35rem 0 0; }
+  fieldset { border: 0; margin: 0; padding: 0; }
+  .checks { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem 1rem; }
+  .checks label { display: flex; gap: 0.5rem; align-items: center; font-size: 1rem; cursor: pointer; }
+  .checks input { width: 1.1rem; height: 1.1rem; accent-color: var(--mark); }
+  .btn {
+    font: inherit; font-weight: 700; font-size: 1rem;
+    background: var(--mark); color: var(--ink);
+    border: 0; border-radius: 4px; padding: 0.8rem 1.4rem; cursor: pointer; justify-self: start;
+  }
+  .btn:hover { background: #F7D978; }
+  .error { color: #FFD9A8; font-weight: 500; margin: 0; min-height: 1.6em; }
+  .results { list-style: none; margin: 1.25rem 0 0; padding: 0; display: grid; gap: 0.75rem; }
+  .results li { background: rgba(245, 247, 243, 0.08); border-radius: 4px; padding: 0.75rem 0.9rem; }
+  .results .placement { font-weight: 700; font-size: 0.95rem; display: flex; justify-content: space-between; gap: 1rem; align-items: center; }
+  .results code { display: block; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.85rem; word-break: break-all; color: #E4ECE7; margin-top: 0.35rem; }
+  .copy {
+    font: inherit; font-size: 0.85rem; font-weight: 700;
+    background: transparent; color: var(--paper); border: 1.5px solid #8FAA9F; border-radius: 4px;
+    padding: 0.2rem 0.6rem; cursor: pointer;
+  }
+  .copy:hover { border-color: var(--mark); }
+  .empty { color: #C9D6CF; margin: 0; }
+
+  /* About + contact */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+  .two-col p { max-width: var(--measure); margin: 0 0 1rem; }
+  .contact-list { list-style: none; padding: 0; margin: 0; font-size: 1.25rem; }
+  .contact-list li { margin-bottom: 0.5rem; }
+
+  footer { margin-top: 6rem; padding: 2rem 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.95rem; }
+
+  @media (max-width: 800px) {
+    .hero { padding-top: 2.5rem; }
+    .proof { grid-template-columns: 1fr; gap: 1.5rem; }
+    .case-body { grid-template-columns: 1fr; }
+    .case-body h3 { padding-top: 0; }
+    .tool { grid-template-columns: 1fr; padding: 1.75rem 1.25rem; }
+    .two-col { grid-template-columns: 1fr; gap: 1rem; }
+    .site-nav { gap: 1rem; }
+  }
+  @media (max-width: 420px) { .checks { grid-template-columns: 1fr; } }
+
+  .stack { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem 0.6rem; max-width: 56rem; }
+  .stack li { border: 1.5px solid var(--line); border-radius: 999px; padding: 0.3rem 0.85rem; font-size: 0.98rem; background: #FBFCFA; }
+  .stack li.lead-item { border-color: var(--green); color: var(--green); font-weight: 700; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="site-name" href="#top">Patrick Thornham</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="#work">Work</a>
+      <a href="#tool">Tool</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap">
+    <div class="hero">
+      <h1>I take products to market, and make sure people actually use them.</h1>
+      <p class="lead">Senior Marketing Manager, Platform at zyBooks, a Wiley brand. I market the zyBooks platform itself, from go-to-market research and messaging to launch campaigns, sales enablement and the self-service content that gets customers started.</p>
+    </div>
+
+    <ul class="proof" aria-label="Selected results">
+      <li><strong><mark>0 to 10%+</mark></strong>usage in one term after launching lockdown browser support</li>
+      <li><strong><mark>31 videos</mark></strong>showing the product in action, for sales and for customers</li>
+      <li><strong><mark>$6M</mark></strong>in sales impact from a renewal campaign built on CRM data</li>
+    </ul>
+
+    <section id="work" aria-labelledby="work-heading">
+      <h2 id="work-heading">Selected work</h2>
+      <p class="section-intro">Launches, enablement and the measurement behind them. Select a project to read it.</p>
+
+      <div class="cases">
+        <details class="case">
+          <summary>
+            <span class="case-title">Launching lockdown browser support</span>
+            <span class="case-result">Usage went from zero to over 10% in one term.</span>
+            <span class="case-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="case-body">
+            <h3>The problem</h3>
+            <p>zyBooks added lockdown browser support to its assessment platform. Instructors had to know it existed, and trust it, before they would turn it on for their exams.</p>
+            <h3>What I did</h3>
+            <ul>
+              <li>Ran the go-to-market research with the assessments product manager and the platform manager.</li>
+              <li>Wrote the messaging, and confirmed every technical claim with product before it went out.</li>
+              <li>Built awareness campaigns and short how-to videos so instructors could see it working.</li>
+              <li>Gave sales a persona guide showing who cares about which capability, and which pain point to lead with.</li>
+            </ul>
+            <h3>Result</h3>
+            <p>Usage went from 0 to over 10% in about three months.</p>
+          </div>
+        </details>
+        <details class="case">
+          <summary>
+            <span class="case-title">Taking labs and a new assessment platform to market</span>
+            <span class="case-result">31 short product videos and persona guides for sales and for customers.</span>
+            <span class="case-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="case-body">
+            <h3>The problem</h3>
+            <p>zyBooks launched labs content and a brand-new assessment platform. Reps needed to know who to approach about what, and customers needed to get started without waiting on onboarding calls.</p>
+            <h3>What I did</h3>
+            <ul>
+              <li>Led the go-to-market research, launch and campaigns, working directly with the labs and assessments product managers and the platform manager.</li>
+              <li>Wrote the product messaging from stakeholder interviews, and co-wrote the customer FAQs with product and sales.</li>
+              <li>Mapped buyer personas to the capabilities each one cares about and the pain points reps should lead with.</li>
+              <li>Produced 31 product videos under four minutes each (17 for labs, 14 for assessment), with persona-focused versions on a private sales page and how-to versions on the public customer site.</li>
+              <li>Built self-service guides for both products and a video-and-text onboarding for the full platform.</li>
+              <li>Run a recurring review with sales and product that reorders content around what customers are asking about now.</li>
+            </ul>
+            <h3>Result</h3>
+            <p>Sales and customers hear the same story, each in the version built for them, and the content keeps up with what customers actually ask.</p>
+          </div>
+        </details>
+        <details class="case">
+          <summary>
+            <span class="case-title">A renewal campaign that took work off sales</span>
+            <span class="case-result">$6M in sales impact.</span>
+            <span class="case-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="case-body">
+            <h3>The problem</h3>
+            <p>Renewals depended on reps reaching each customer at the right moment, on top of everything else on their plates.</p>
+            <h3>What I did</h3>
+            <p>Built a campaign that used CRM data to reach customers at the critical points in their renewal cycle, and tracked engagement the whole way through. Renewal outreach moved from the reps to marketing automation.</p>
+            <h3>Result</h3>
+            <p>$6M in cumulative sales impact, and reps got that time back for new business.</p>
+          </div>
+        </details>
+        <details class="case">
+          <summary>
+            <span class="case-title">Measuring what my launches actually did</span>
+            <span class="case-result">Attribution reporting that connects campaigns to pipeline and revenue.</span>
+            <span class="case-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="case-body">
+            <h3>The problem</h3>
+            <p>Marketing had no way to connect a campaign to pipeline or revenue, so there was no way to know which launch work paid off.</p>
+            <h3>What I did</h3>
+            <ul>
+              <li>Built marketing's first attribution reporting, matching new leads to opportunities opened within 90 days across hundreds of campaigns over three years.</li>
+              <li>Gave leadership a revenue view for monthly and quarterly reviews, and gave marketers a drill-down into every asset in a campaign.</li>
+              <li>Found and fixed a gap that was silently dropping deals from the reports when the contact on a deal changed.</li>
+            </ul>
+            <h3>Result</h3>
+            <p>We learned which channels actually drive revenue, and turned a webinar link that the data proved out into standard practice.</p>
+          </div>
+        </details>
+        <details class="case">
+          <summary>
+            <span class="case-title">AI tools that speed up go-to-market work</span>
+            <span class="case-result">From research notes to first drafts, and answers for reps in Slack.</span>
+            <span class="case-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="case-body">
+            <h3>The problem</h3>
+            <p>A five-person team supporting launches, campaigns and enablement for a whole platform.</p>
+            <h3>What I did</h3>
+            <ul>
+              <li>Built a tool that turns go-to-market research and expert interviews into first drafts of emails, blog posts, social posts and video ideas.</li>
+              <li>Launched a Slack assistant that answers sales reps' product questions in plain language, straight from the knowledge base.</li>
+              <li>Built tools for campaign setup, email drafting, webinars and tracking links that the whole marketing team uses.</li>
+            </ul>
+            <h3>Result</h3>
+            <p>Launch content gets from research to draft faster, and reps can answer customer questions without hunting for them.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section aria-labelledby="stack-heading">
+      <h2 id="stack-heading">How I take a product to market</h2>
+      <ul class="stack">
+        <li>Go-to-market research</li>
+        <li>Buyer personas and pain points</li>
+        <li>Messaging checked with product</li>
+        <li>Launch campaigns</li>
+        <li>Sales enablement</li>
+        <li>Short product videos</li>
+        <li>Customer self-service and onboarding</li>
+        <li>A feedback loop with sales</li>
+      </ul>
+    </section>
+
+    <section id="tool" class="tool-section" aria-labelledby="tool-heading">
+      <div class="tool">
+        <div>
+          <h2 id="tool-heading">Try one of my tools</h2>
+          <p class="section-intro">This is a public version of the tracking-link builder our marketing team uses. Every placement in a campaign gets a link in the same format, which is what makes campaign reporting trustworthy.</p>
+          <form id="utm-form" novalidate>
+            <div class="field">
+              <label for="utm-url">Landing page</label>
+              <input id="utm-url" type="url" placeholder="https://example.com/webinar" autocomplete="off" required>
+            </div>
+            <div class="field">
+              <label for="utm-campaign">Campaign name</label>
+              <input id="utm-campaign" type="text" placeholder="Spring webinar 2027" autocomplete="off" required>
+              <p class="hint">Spaces and capitals are cleaned up for you.</p>
+            </div>
+            <fieldset>
+              <legend>Placements</legend>
+              <div class="checks">
+                <label><input type="checkbox" value="email-1" checked> Email 1</label>
+                <label><input type="checkbox" value="email-2" checked> Email 2</label>
+                <label><input type="checkbox" value="email-3"> Email 3</label>
+                <label><input type="checkbox" value="rep-share" checked> Rep share link</label>
+                <label><input type="checkbox" value="linkedin-paid"> LinkedIn, paid</label>
+                <label><input type="checkbox" value="linkedin-organic"> LinkedIn, organic</label>
+                <label><input type="checkbox" value="webinar-live"> Link shared during webinar</label>
+                <label><input type="checkbox" value="newsletter"> Newsletter</label>
+              </div>
+            </fieldset>
+            <button class="btn" type="submit">Build links</button>
+            <p class="error" id="utm-error" role="alert"></p>
+          </form>
+        </div>
+        <div aria-live="polite">
+          <p class="empty" id="utm-empty">Your links will appear here, one for each placement you choose.</p>
+          <ul class="results" id="utm-results"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" aria-labelledby="about-heading">
+      <div class="two-col">
+        <h2 id="about-heading">From the classroom to marketing</h2>
+        <div>
+          <p>I taught in Denver Public Schools for 15 years, including running a STEM lab, and earned National Board Certification in early adolescent math. Then I sold STEM courseware to college faculty for Macmillan Learning and zyBooks before moving into marketing in 2022.</p>
+          <p>That path shapes how I work. I've been the instructor deciding whether to adopt a product, and the rep who had to explain it. So I write for the buyer, and I build the tools that let a small team do the work of a much bigger one.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" aria-labelledby="contact-heading">
+      <div class="two-col">
+        <h2 id="contact-heading">Get in touch</h2>
+        <ul class="contact-list">
+          <li><a href="mailto:ppthornham@gmail.com">ppthornham@gmail.com</a></li>
+          <li><a href="https://www.linkedin.com/in/patrick-thornham/">LinkedIn</a></li>
+        </ul>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">Patrick Thornham, Denver, Colorado</div>
+</footer>
+
+<script>
+(function () {
+  var placements = {
+    "email-1":          { label: "Email 1", source: "email", medium: "email", content: "email-1" },
+    "email-2":          { label: "Email 2", source: "email", medium: "email", content: "email-2" },
+    "email-3":          { label: "Email 3", source: "email", medium: "email", content: "email-3" },
+    "rep-share":        { label: "Rep share link", source: "sales", medium: "rep-share", content: "rep-link" },
+    "linkedin-paid":    { label: "LinkedIn, paid", source: "linkedin", medium: "paid-social", content: "sponsored-post" },
+    "linkedin-organic": { label: "LinkedIn, organic", source: "linkedin", medium: "organic-social", content: "post" },
+    "webinar-live":     { label: "Link shared during webinar", source: "webinar", medium: "live-event", content: "in-session-link" },
+    "newsletter":       { label: "Newsletter", source: "newsletter", medium: "email", content: "feature" }
+  };
+
+  var form = document.getElementById("utm-form");
+  var urlInput = document.getElementById("utm-url");
+  var campaignInput = document.getElementById("utm-campaign");
+  var errorEl = document.getElementById("utm-error");
+  var results = document.getElementById("utm-results");
+  var empty = document.getElementById("utm-empty");
+
+  function slug(text) {
+    return text.toLowerCase().trim()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  }
+
+  function parseUrl(raw) {
+    var value = raw.trim();
+    if (!value) return null;
+    if (!/^https?:\/\//i.test(value)) value = "https://" + value;
+    try {
+      var u = new URL(value);
+      return u.hostname.indexOf(".") > 0 ? u : null;
+    } catch (e) { return null; }
+  }
+
+  function copyText(text, button) {
+    function done() {
+      button.textContent = "Copied";
+      setTimeout(function () { button.textContent = "Copy"; }, 1600);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () { button.textContent = "Select and copy"; });
+    } else {
+      button.textContent = "Select and copy";
+    }
+  }
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    errorEl.textContent = "";
+
+    var base = parseUrl(urlInput.value);
+    var campaign = slug(campaignInput.value);
+    var chosen = Array.prototype.slice.call(form.querySelectorAll(".checks input:checked")).map(function (c) { return c.value; });
+
+    if (!base) { errorEl.textContent = "Enter a full web address, like https://example.com/page."; urlInput.focus(); return; }
+    if (!campaign) { errorEl.textContent = "Enter a campaign name."; campaignInput.focus(); return; }
+    if (!chosen.length) { errorEl.textContent = "Choose at least one placement."; return; }
+
+    results.innerHTML = "";
+    chosen.forEach(function (key) {
+      var p = placements[key];
+      var u = new URL(base.toString());
+      u.searchParams.set("utm_source", p.source);
+      u.searchParams.set("utm_medium", p.medium);
+      u.searchParams.set("utm_campaign", campaign);
+      u.searchParams.set("utm_content", p.content);
+      var link = u.toString();
+
+      var li = document.createElement("li");
+      var head = document.createElement("div");
+      head.className = "placement";
+      var name = document.createElement("span");
+      name.textContent = p.label;
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "copy";
+      btn.textContent = "Copy";
+      btn.setAttribute("aria-label", "Copy link for " + p.label);
+      btn.addEventListener("click", function () { copyText(link, btn); });
+      head.appendChild(name);
+      head.appendChild(btn);
+      var code = document.createElement("code");
+      code.textContent = link;
+      li.appendChild(head);
+      li.appendChild(code);
+      results.appendChild(li);
+    });
+    empty.hidden = true;
+  });
+})();
+</script>
+</body>
+</html>
