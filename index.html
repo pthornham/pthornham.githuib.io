@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Patrick Thornham · Marketing operations</title>
+<meta name="description" content="Patrick Thornham runs marketing automation, attribution and AI tools: MCAE platform owner, Marketo, Salesforce.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F5F7F3;
+    --ink: #1D2A24;
+    --green: #2E5E4E;
+    --green-deep: #234A3D;
+    --muted: #56665E;
+    --line: #D3DBD5;
+    --mark: #F2C94C;
+    --measure: 40rem;
+    --wide: 68rem;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Schibsted Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 1.125rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--green); text-underline-offset: 0.18em; }
+  a:hover { color: var(--ink); }
+  :focus-visible { outline: 3px solid var(--mark); outline-offset: 3px; border-radius: 2px; }
+  .wrap { max-width: var(--wide); margin: 0 auto; padding: 0 1.5rem; }
+
+  /* Header */
+  .site-header { padding: 1.5rem 0; }
+  .site-header .wrap { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+  .site-name { font-weight: 800; text-decoration: none; color: var(--ink); font-size: 1.05rem; }
+  .site-nav { display: flex; gap: 1.5rem; font-size: 1rem; }
+  .site-nav a { color: var(--muted); text-decoration: none; }
+  .site-nav a:hover { color: var(--ink); text-decoration: underline; }
+
+  /* Hero */
+  .hero { padding: 4.5rem 0 3.5rem; }
+  .hero h1 {
+    font-size: clamp(2.5rem, 6.4vw, 4.6rem);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    font-weight: 800;
+    max-width: 15ch;
+    margin: 0 0 1.75rem;
+  }
+  .lead { font-size: 1.3rem; line-height: 1.5; color: var(--muted); max-width: 36rem; margin: 0; }
+
+  /* Proof */
+  .proof {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+  }
+  .proof li { border-top: 2px solid var(--ink); padding-top: 1rem; font-size: 1.15rem; line-height: 1.45; }
+  .proof strong { display: block; font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 0.35rem; font-variant-numeric: tabular-nums; }
+  mark {
+    background: linear-gradient(transparent 58%, var(--mark) 58%, var(--mark) 92%, transparent 92%);
+    color: inherit; padding: 0 0.08em;
+  }
+
+  /* Sections */
+  section { padding: 5rem 0 0; }
+  h2 { font-size: 2rem; letter-spacing: -0.02em; line-height: 1.15; margin: 0 0 0.75rem; font-weight: 800; }
+  .section-intro { color: var(--muted); max-width: var(--measure); margin: 0 0 2rem; }
+
+  /* Case studies */
+  .cases { border-bottom: 1px solid var(--line); }
+  .case { border-top: 1px solid var(--line); }
+  .case summary {
+    list-style: none; cursor: pointer;
+    display: grid; grid-template-columns: 1fr auto; gap: 0.25rem 1.5rem; align-items: baseline;
+    padding: 1.5rem 0;
+  }
+  .case summary::-webkit-details-marker { display: none; }
+  .case-title { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.01em; line-height: 1.3; }
+  .case-result { grid-column: 1; color: var(--muted); }
+  .case-toggle {
+    grid-column: 2; grid-row: 1 / span 2; align-self: center;
+    width: 2rem; height: 2rem; border: 1.5px solid var(--ink); border-radius: 50%;
+    position: relative;
+  }
+  .case-toggle::before, .case-toggle::after {
+    content: ""; position: absolute; left: 50%; top: 50%; background: var(--ink);
+    width: 0.8rem; height: 1.5px; transform: translate(-50%, -50%);
+  }
+  .case-toggle::after { transform: translate(-50%, -50%) rotate(90deg); transition: transform 0.2s ease; }
+  .case[open] .case-toggle::after { transform: translate(-50%, -50%) rotate(0deg); }
+  .case summary:hover .case-title { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.2em; }
+  .case-body {
+    display: grid; grid-template-columns: 11rem 1fr; gap: 0.5rem 2rem;
+    padding: 0 0 2rem; max-width: 56rem;
+  }
+  .case-body h3 { font-size: 1rem; font-weight: 700; margin: 0; color: var(--green); padding-top: 0.15rem; }
+  .case-body p { margin: 0 0 1.25rem; max-width: var(--measure); }
+  .case-body ul { margin: 0 0 1.25rem; padding-left: 1.1rem; max-width: var(--measure); }
+  .case-body li { margin-bottom: 0.35rem; }
+
+  /* Tool */
+  .tool-section { padding-top: 5rem; }
+  .tool {
+    background: var(--green-deep); color: var(--paper);
+    border-radius: 6px; padding: 2.5rem;
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 2.5rem;
+  }
+  .tool h2 { color: var(--paper); }
+  .tool .section-intro { color: #C9D6CF; }
+  .tool form { display: grid; gap: 1.25rem; }
+  .field label, fieldset legend { display: block; font-weight: 700; font-size: 1rem; margin-bottom: 0.4rem; }
+  .field input {
+    width: 100%; font: inherit; font-size: 1rem;
+    padding: 0.7rem 0.8rem; border-radius: 4px;
+    border: 1.5px solid #6F8F82; background: #F5F7F3; color: var(--ink);
+  }
+  .hint { font-size: 0.9rem; color: #C9D6CF; margin: 0.35rem 0 0; }
+  fieldset { border: 0; margin: 0; padding: 0; }
+  .checks { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem 1rem; }
+  .checks label { display: flex; gap: 0.5rem; align-items: center; font-size: 1rem; cursor: pointer; }
+  .checks input { width: 1.1rem; height: 1.1rem; accent-color: var(--mark); }
+  .btn {
+    font: inherit; font-weight: 700; font-size: 1rem;
+    background: var(--mark); color: var(--ink);
+    border: 0; border-radius: 4px; padding: 0.8rem 1.4rem; cursor: pointer; justify-self: start;
+  }
+  .btn:hover { background: #F7D978; }
+  .error { color: #FFD9A8; font-weight: 500; margin: 0; min-height: 1.6em; }
+  .results { list-style: none; margin: 1.25rem 0 0; padding: 0; display: grid; gap: 0.75rem; }
+  .results li { background: rgba(245, 247, 243, 0.08); border-radius: 4px; padding: 0.75rem 0.9rem; }
+  .results .placement { font-weight: 700; font-size: 0.95rem; display: flex; justify-content: space-between; gap: 1rem; align-items: center; }
+  .results code { display: block; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.85rem; word-break: break-all; color: #E4ECE7; margin-top: 0.35rem; }
+  .copy {
+    font: inherit; font-size: 0.85rem; font-weight: 700;
+    background: transparent; color: var(--paper); border: 1.5px solid #8FAA9F; border-radius: 4px;
+    padding: 0.2rem 0.6rem; cursor: pointer;
+  }
+  .copy:hover { border-color: var(--mark); }
+  .empty { color: #C9D6CF; margin: 0; }
+
+  /* About + contact */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+  .two-col p { max-width: var(--measure); margin: 0 0 1rem; }
+  .contact-list { list-style: none; padding: 0; margin: 0; font-size: 1.25rem; }
+  .contact-list li { margin-bottom: 0.5rem; }
+
+  footer { margin-top: 6rem; padding: 2rem 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.95rem; }
+
+  @media (max-width: 800px) {
+    .hero { padding-top: 2.5rem; }
+    .proof { grid-template-columns: 1fr; gap: 1.5rem; }
+    .case-body { grid-template-columns: 1fr; }
+    .case-body h3 { padding-top: 0; }
+    .tool { grid-template-columns: 1fr; padding: 1.75rem 1.25rem; }
+    .two-col { grid-template-columns: 1fr; gap: 1rem; }
+    .site-nav { gap: 1rem; }
+  }
+  @media (max-width: 420px) { .checks { grid-template-columns: 1fr; } }
+
+  .stack { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem 0.6rem; max-width: 56rem; }
+  .stack li { border: 1.5px solid var(--line); border-radius: 999px; padding: 0.3rem 0.85rem; font-size: 0.98rem; background: #FBFCFA; }
+  .stack li.lead-item { border-color: var(--green); color: var(--green); font-weight: 700; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="site-name" href="#top">Patrick Thornham</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="#work">Work</a>
+      <a href="#tool">Tool</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap">
+    <div class="hero">
+      <h1>I build the marketing systems that show what's working.</h1>
+      <p class="lead">Senior Marketing Manager, Platform at zyBooks, a Wiley brand. I own our marketing automation platform, built our attribution reporting, and make the AI tools our five-person team runs on.</p>
+    </div>
+
+    <ul class="proof" aria-label="Selected results">
+      <li><strong><mark>358 emails</mark></strong>moved to a new platform with a tool I built, saving about 60 hours</li>
+      <li><strong><mark>109 lists</mark></strong>converted to the new platform across the team in five days</li>
+      <li><strong><mark>$6M</mark></strong>in sales impact from a renewal campaign built on CRM data</li>
+    </ul>
+
+    <section id="work" aria-labelledby="work-heading">
+      <h2 id="work-heading">Selected work</h2>
+      <p class="section-intro">Platform migrations, attribution, automation and tooling. Select a project to read it.</p>
+
+      <div class="cases">
+        <details class="case">
+          <summary>
+            <span class="case-title">Building attribution from nothing</span>
+            <span class="case-result">Marketing's first view of the pipeline and revenue its campaigns create.</span>
+            <span class="case-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="case-body">
+            <h3>The problem</h3>
+            <p>Marketing had no way to connect a campaign to pipeline or revenue.</p>
+            <h3>What I did</h3>
+            <ul>
+              <li>Built attribution reporting that matches each new marketing-qualified lead to opportunities opened within 90 days, tracking open pipeline and closed revenue across hundreds of campaigns over three years.</li>
+              <li>Designed two views from one data source: a revenue view for leadership's monthly and quarterly reviews, and a drill-down that lets marketers see every asset in a campaign, from sends to revenue.</li>
+              <li>Rebuilt it from Power BI into an AI tool I made, which cleans changing source data automatically.</li>
+              <li>When revenue from self-started evaluations began disappearing from the reports, I traced the records and found that changing the contact on a deal silently removed it. A CRM change now ties credit to the campaign, so it survives contact changes.</li>
+            </ul>
+            <h3>Result</h3>
+            <p>We learned which channels actually drive revenue: webinars won in some areas, and a plain personal email with a direct reply won in others. A link one colleague shared during webinars showed a strong return, so it became standard practice.</p>
+          </div>
+        </details>
+        <details class="case">
+          <summary>
+            <span class="case-title">Moving the team off Marketo</span>
+            <span class="case-result">358 emails and 109 smart lists migrated, with sales keeping every alert it relied on.</span>
+            <span class="case-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="case-body">
+            <h3>The problem</h3>
+            <p>The company moved from Marketo to Salesforce Marketing Cloud Account Engagement. Converting 358 emails by hand, at about 10 minutes each, was roughly 60 hours the team did not have.</p>
+            <h3>What I did</h3>
+            <ul>
+              <li>As platform owner, built an AI-assisted tool that previewed every Marketo email and converted it to import-ready HTML.</li>
+              <li>Directed the conversion of 109 smart lists across the team in five days, using a tracking checklist.</li>
+              <li>Rebuilt lead scoring and rep alerts with reps, regional managers and the sales director.</li>
+              <li>Managed IP warming, ran the first wave of campaigns on the new platform, and wrote the training the team builds from.</li>
+            </ul>
+            <h3>Result</h3>
+            <p>About 60 hours of manual work saved, and no lost signals for sales.</p>
+          </div>
+        </details>
+        <details class="case">
+          <summary>
+            <span class="case-title">AI tools for a five-person team</span>
+            <span class="case-result">Used every day by the whole marketing team and by sales reps.</span>
+            <span class="case-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="case-body">
+            <h3>The problem</h3>
+            <p>A five-person team running a full campaign program, plus training, enablement and the website.</p>
+            <h3>What I did</h3>
+            <ul>
+              <li>Built tools covering campaign setup, email drafting, Zoom webinar integration, tracking links and reporting.</li>
+              <li>Built a system that turns screen recordings into finished knowledge base articles, each with short task-level video clips.</li>
+              <li>Launched a Slack assistant that answers sales reps' questions in plain language, straight from the knowledge base.</li>
+              <li>Led a four-person team that moved 250+ website videos to a new platform in 30 days, using a site-audit tool I built that a second division later adopted.</li>
+            </ul>
+            <h3>Result</h3>
+            <p>The whole team uses these tools, and they are a big part of why the team can stay at five people.</p>
+          </div>
+        </details>
+        <details class="case">
+          <summary>
+            <span class="case-title">A renewal campaign that took work off sales</span>
+            <span class="case-result">$6M in sales impact.</span>
+            <span class="case-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="case-body">
+            <h3>The problem</h3>
+            <p>Renewals depended on reps reaching each customer at the right moment, on top of everything else on their plates.</p>
+            <h3>What I did</h3>
+            <p>Built a campaign that used CRM data to reach customers at the critical points in their renewal cycle, and tracked engagement the whole way through. Renewal outreach moved from the reps to marketing automation.</p>
+            <h3>Result</h3>
+            <p>$6M in cumulative sales impact, and reps got that time back for new business.</p>
+          </div>
+        </details>
+        <details class="case">
+          <summary>
+            <span class="case-title">Personalizing email from CRM data</span>
+            <span class="case-result">Content matched to each instructor's courses, and timed to their academic calendar.</span>
+            <span class="case-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="case-body">
+            <h3>The problem</h3>
+            <p>Instructors got the same message at the same time, whatever they taught and wherever they were in their term.</p>
+            <h3>What I did</h3>
+            <ul>
+              <li>Built email programs that changed content based on the courses each instructor teaches.</li>
+              <li>Timed sends around each instructor's term start and finals dates.</li>
+              <li>Built a tool that reads reports from sales reps and writes subject lines specific to each instructor's course.</li>
+            </ul>
+            <h3>Result</h3>
+            <p>Personalized outreach at scale, using data already in the CRM and no extra platform.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section aria-labelledby="stack-heading">
+      <h2 id="stack-heading">Platforms I work in</h2>
+      <ul class="stack">
+        <li class="lead-item">Marketing Cloud Account Engagement (platform owner)</li>
+        <li>Marketo</li>
+        <li>Salesforce</li>
+        <li>Power BI</li>
+        <li>GA4</li>
+        <li>SQL</li>
+        <li>Zapier</li>
+        <li>Zoom webinars</li>
+        <li>Cloudinary</li>
+        <li>WordPress</li>
+        <li>Adobe Experience Manager</li>
+        <li>Webflow</li>
+        <li>HTML</li>
+        <li>Slack</li>
+      </ul>
+    </section>
+
+    <section id="tool" class="tool-section" aria-labelledby="tool-heading">
+      <div class="tool">
+        <div>
+          <h2 id="tool-heading">Try one of my tools</h2>
+          <p class="section-intro">This is a public version of the tracking-link builder our marketing team uses. Every placement in a campaign gets a link in the same format, which is what makes campaign reporting trustworthy.</p>
+          <form id="utm-form" novalidate>
+            <div class="field">
+              <label for="utm-url">Landing page</label>
+              <input id="utm-url" type="url" placeholder="https://example.com/webinar" autocomplete="off" required>
+            </div>
+            <div class="field">
+              <label for="utm-campaign">Campaign name</label>
+              <input id="utm-campaign" type="text" placeholder="Spring webinar 2027" autocomplete="off" required>
+              <p class="hint">Spaces and capitals are cleaned up for you.</p>
+            </div>
+            <fieldset>
+              <legend>Placements</legend>
+              <div class="checks">
+                <label><input type="checkbox" value="email-1" checked> Email 1</label>
+                <label><input type="checkbox" value="email-2" checked> Email 2</label>
+                <label><input type="checkbox" value="email-3"> Email 3</label>
+                <label><input type="checkbox" value="rep-share" checked> Rep share link</label>
+                <label><input type="checkbox" value="linkedin-paid"> LinkedIn, paid</label>
+                <label><input type="checkbox" value="linkedin-organic"> LinkedIn, organic</label>
+                <label><input type="checkbox" value="webinar-live"> Link shared during webinar</label>
+                <label><input type="checkbox" value="newsletter"> Newsletter</label>
+              </div>
+            </fieldset>
+            <button class="btn" type="submit">Build links</button>
+            <p class="error" id="utm-error" role="alert"></p>
+          </form>
+        </div>
+        <div aria-live="polite">
+          <p class="empty" id="utm-empty">Your links will appear here, one for each placement you choose.</p>
+          <ul class="results" id="utm-results"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" aria-labelledby="about-heading">
+      <div class="two-col">
+        <h2 id="about-heading">From the classroom to marketing</h2>
+        <div>
+          <p>I taught in Denver Public Schools for 15 years, including running a STEM lab, and earned National Board Certification in early adolescent math. Then I sold STEM courseware to college faculty for Macmillan Learning and zyBooks before moving into marketing in 2022.</p>
+          <p>That path shapes how I work. I've been the instructor deciding whether to adopt a product, and the rep who had to explain it. So I write for the buyer, and I build the tools that let a small team do the work of a much bigger one.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" aria-labelledby="contact-heading">
+      <div class="two-col">
+        <h2 id="contact-heading">Get in touch</h2>
+        <ul class="contact-list">
+          <li><a href="mailto:ppthornham@gmail.com">ppthornham@gmail.com</a></li>
+          <li><a href="https://www.linkedin.com/in/patrick-thornham/">LinkedIn</a></li>
+        </ul>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">Patrick Thornham, Denver, Colorado</div>
+</footer>
+
+<script>
+(function () {
+  var placements = {
+    "email-1":          { label: "Email 1", source: "email", medium: "email", content: "email-1" },
+    "email-2":          { label: "Email 2", source: "email", medium: "email", content: "email-2" },
+    "email-3":          { label: "Email 3", source: "email", medium: "email", content: "email-3" },
+    "rep-share":        { label: "Rep share link", source: "sales", medium: "rep-share", content: "rep-link" },
+    "linkedin-paid":    { label: "LinkedIn, paid", source: "linkedin", medium: "paid-social", content: "sponsored-post" },
+    "linkedin-organic": { label: "LinkedIn, organic", source: "linkedin", medium: "organic-social", content: "post" },
+    "webinar-live":     { label: "Link shared during webinar", source: "webinar", medium: "live-event", content: "in-session-link" },
+    "newsletter":       { label: "Newsletter", source: "newsletter", medium: "email", content: "feature" }
+  };
+
+  var form = document.getElementById("utm-form");
+  var urlInput = document.getElementById("utm-url");
+  var campaignInput = document.getElementById("utm-campaign");
+  var errorEl = document.getElementById("utm-error");
+  var results = document.getElementById("utm-results");
+  var empty = document.getElementById("utm-empty");
+
+  function slug(text) {
+    return text.toLowerCase().trim()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  }
+
+  function parseUrl(raw) {
+    var value = raw.trim();
+    if (!value) return null;
+    if (!/^https?:\/\//i.test(value)) value = "https://" + value;
+    try {
+      var u = new URL(value);
+      return u.hostname.indexOf(".") > 0 ? u : null;
+    } catch (e) { return null; }
+  }
+
+  function copyText(text, button) {
+    function done() {
+      button.textContent = "Copied";
+      setTimeout(function () { button.textContent = "Copy"; }, 1600);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () { button.textContent = "Select and copy"; });
+    } else {
+      button.textContent = "Select and copy";
+    }
+  }
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    errorEl.textContent = "";
+
+    var base = parseUrl(urlInput.value);
+    var campaign = slug(campaignInput.value);
+    var chosen = Array.prototype.slice.call(form.querySelectorAll(".checks input:checked")).map(function (c) { return c.value; });
+
+    if (!base) { errorEl.textContent = "Enter a full web address, like https://example.com/page."; urlInput.focus(); return; }
+    if (!campaign) { errorEl.textContent = "Enter a campaign name."; campaignInput.focus(); return; }
+    if (!chosen.length) { errorEl.textContent = "Choose at least one placement."; return; }
+
+    results.innerHTML = "";
+    chosen.forEach(function (key) {
+      var p = placements[key];
+      var u = new URL(base.toString());
+      u.searchParams.set("utm_source", p.source);
+      u.searchParams.set("utm_medium", p.medium);
+      u.searchParams.set("utm_campaign", campaign);
+      u.searchParams.set("utm_content", p.content);
+      var link = u.toString();
+
+      var li = document.createElement("li");
+      var head = document.createElement("div");
+      head.className = "placement";
+      var name = document.createElement("span");
+      name.textContent = p.label;
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "copy";
+      btn.textContent = "Copy";
+      btn.setAttribute("aria-label", "Copy link for " + p.label);
+      btn.addEventListener("click", function () { copyText(link, btn); });
+      head.appendChild(name);
+      head.appendChild(btn);
+      var code = document.createElement("code");
+      code.textContent = link;
+      li.appendChild(head);
+      li.appendChild(code);
+      results.appendChild(li);
+    });
+    empty.hidden = true;
+  });
+})();
+</script>
+</body>
+</html>
