@@ -147,6 +147,17 @@
   }
   .copy:hover { border-color: var(--mark); }
   .empty { color: #C9D6CF; margin: 0; }
+  .demo-card {
+    margin-top: 1.25rem; border: 1px solid var(--line); border-radius: 6px; padding: 1.5rem 1.75rem;
+    display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+  }
+  .demo-card h3 { font-size: 1.2rem; margin: 0 0 0.35rem; }
+  .demo-card p { margin: 0; max-width: var(--measure); color: var(--muted); }
+  .demo-link {
+    font-weight: 700; text-decoration: none; white-space: nowrap;
+    background: var(--green); color: var(--paper); border-radius: 4px; padding: 0.75rem 1.2rem;
+  }
+  .demo-link:hover { background: var(--green-deep); }
 
   /* About + contact */
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
@@ -296,7 +307,7 @@
               <li>Led a four-person team that moved 250+ website videos to a new platform in 30 days, using a site-audit tool I built that a second division later adopted.</li>
             </ul>
             <h3>Result</h3>
-            <p>The whole team uses these tools, and they are a big part of why the team can stay at five people.</p>
+            <p>The whole team uses these tools, and they are a big part of why the team can stay at five people. <a href="/webinar-demo/">Try a demo of the webinar program tool</a>.</p>
           </div>
         </details>
       </div>
@@ -338,6 +349,13 @@
           <p class="empty" id="utm-empty">Your links will appear here, one for each placement you choose.</p>
           <ul class="results" id="utm-results"></ul>
         </div>
+      </div>
+      <div class="demo-card">
+        <div>
+          <h3>Webinar program tool</h3>
+          <p>Turn planning notes into a complete campaign, from invites to the recording page, then see which links drove pipeline. Interactive demo with dummy data.</p>
+        </div>
+        <a class="demo-link" href="/webinar-demo/">Try the demo →</a>
       </div>
     </section>
 
